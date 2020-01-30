@@ -1,0 +1,58 @@
+<?php 
+
+$long_opt = array(
+    'path:',
+);
+$params = getopt('', $long_opt);
+
+if (empty($params)) {
+    echo "\n\n这是一个简单的文件提取工具 #_#\n
+usage `php FileExtraction.php --path \"{path}\"` \n";
+    exit();
+}
+
+$path = $params['path'];
+FileExtraction($path);
+
+/**
+ * @param string $path
+ * @param string $tmp
+ * @return string
+ */
+function FileExtraction($path,$tmp='./tmp')
+{
+    $handle=opendir($path);//打开目录句柄
+    if ($handle) {
+        while (($file=readdir($handle)) == true) {
+            if ($file!='.' && $file!='..') {
+                $p="{$path}/{$file}";
+            if (is_dir($p)) {
+                    FileExtraction($p);
+                }else{
+                    if (!is_dir($tmp)) {
+                        MakeDir($tmp);
+                    }
+                    if ($file != '.DS_Store') {
+                        $name = md5(file_get_contents($p));
+                        $ext = pathinfo($file,PATHINFO_EXTENSION);
+                        $cmd = "cp {$p} {$tmp}/{$name}.{$ext}";
+                        copy($p,"{$tmp}/{$name}.{$ext}");
+                        echo "\n$cmd\n";
+                    }
+                }
+            }
+        }
+    }
+    return "\nRun down OK\n";
+}
+
+/**
+ * @param $dir
+ * @return bool
+ */
+function MakeDir ($dir)
+{
+    return is_dir($dir) or
+        (MakeDir(dirname($dir)) and
+            mkdir($dir, 0777));
+}
