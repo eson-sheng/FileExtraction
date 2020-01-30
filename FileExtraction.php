@@ -17,7 +17,6 @@ FileExtraction($path);
 /**
  * @param string $path
  * @param string $tmp
- * @return string
  */
 function FileExtraction($path,$tmp='./tmp')
 {
@@ -43,7 +42,7 @@ function FileExtraction($path,$tmp='./tmp')
             }
         }
     }
-    return "\nRun down OK\n";
+    echo "\nRun down OK\n";
 }
 
 /**
