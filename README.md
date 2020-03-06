@@ -3,7 +3,7 @@
 
 ## usage 
 ```php
-php /path/to/FileExtraction.php --path "{path}"
+php /path/to/FileExtraction --path "{path}"
 ```
 
 ## Connect me 
